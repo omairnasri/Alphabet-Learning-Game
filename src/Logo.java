@@ -8,12 +8,14 @@ import javafx.event.ActionEvent;
 public class Logo extends JFrame
 {
 	Operation o = new Operation();
+	Validation validator = new Validation();
 	
 	private JButton aButton, bButton, cButton, dButton, eButton, fButton, gButton, hButton, iButton, jButton, kButton, 
 	lButton, mButton, nButton, oButton, pButton, qButton, rButton, sButton, tButton, uButton, vButton, wButton, 
 	xButton, yButton, zButton;
 	
 	private JButton submitButton;
+	private JButton highScoreButton;
 	
 	private JPanel mainGamePanel = new JPanel();
 	private JPanel submitPanel = new JPanel();
@@ -35,8 +37,7 @@ public class Logo extends JFrame
 		super("Start");
 		buildInputPanel();
 		buildSubmitPanel();
-		buildLettersPanel();
-		
+		buildLettersPanel();	
 		
 		int WIDTH = 500;
 		int HEIGHT = 600;
@@ -45,11 +46,11 @@ public class Logo extends JFrame
 		mainGamePanel.add(submitPanel, BorderLayout.CENTER);
 		mainGamePanel.add(inputPanel, BorderLayout.NORTH);
 		mainGamePanel.add(mainLettersPanel, BorderLayout.SOUTH);
-		
-		
+			
 		//add(submitPanel);
 		add(mainGamePanel);
 		
+		setLocationRelativeTo(null);
 		setSize(WIDTH, HEIGHT);
 		setVisible(true);
 	}
@@ -57,8 +58,11 @@ public class Logo extends JFrame
 	private void buildInputPanel()
 	{
 		// attaching image with prompt
+		o.resetValue();
+		o.resetPrompt();
+		
 		o.prompt();
-		String p = o.getPrompt();
+		String p = Operation.getPrompt();
 		
 		//JOptionPane.showMessageDialog(null, "Prompt is: " + p);
 
@@ -90,12 +94,26 @@ public class Logo extends JFrame
 						try
 						{
 						//JOptionPane.showMessageDialog(null, "o.setValue + value = " + val);
-						o.setValue(o.getUserWord());
-						o.validateInput();
+						Operation.setValue(o.getUserWord());
+//						o.validateInput();
+						validator.validateInput();
 						}
 						catch(Exception e1)
 						{
 							JOptionPane.showMessageDialog(null, "ERROR: " + e1.getMessage());
+						}
+						
+						o.incrementLevel();
+						
+						if((o.getLevel() <= 9))
+						{
+						dispose();
+						new Logo();
+						}
+						else if((o.getLevel() >= 10))
+						{
+							dispose();
+							new endGameApplet();
 						}
 						
 						
@@ -103,7 +121,19 @@ public class Logo extends JFrame
 				}
 			);
 		
+		highScoreButton = new JButton("HighScoreButton");
+		highScoreButton.addActionListener(
+				new ActionListener() 
+				{
+					public void actionPerformed(java.awt.event.ActionEvent e) 
+					{ // Here
+						new newHighScoresApplet();
+					} // To Here
+				}
+			);
+		
 		submitPanel.add(submitButton);
+		submitPanel.add(highScoreButton);
 	}
 	
 	public void buildLettersPanel()
@@ -245,6 +275,7 @@ public class Logo extends JFrame
 				{
 					//JOptionPane.showMessageDialog(null, " button clicked");
 					o.appendLetter("e");
+					//changeLetter("e");
 				}
 			}
 		);
@@ -461,14 +492,6 @@ public class Logo extends JFrame
 	
 	} // End buildLettersPanel()
 
-	
-	
-	public static void main(String a[])
-	{
-		//LogoOperation o = new LogoOperation();
-		new Logo();
-	
-	}
 }
 
 	

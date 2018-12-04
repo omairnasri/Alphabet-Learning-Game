@@ -17,7 +17,8 @@ public class Operation
 	LinkedList<Person> list = new LinkedList<Person>();
 	Person newObj;
 	
-	String name, strScore, value, prompt1 = "", fileHolder = "", promptWord = "", userName;	
+	String name, strScore, fileHolder = "", promptWord = "", userName;	
+	static String value, prompt1;
 	String userWord = "", x = "";
 	int score, compareScore, deleteIndex, lineNum = 0, incorrectIndex;
 	static int level = 1, correct = 0, set = 1;
@@ -104,25 +105,35 @@ public class Operation
 			
 	} // end prompt() ************************** 
 		
-	public void setValue(String value)	// Set value1 - the user entry(value)
+	public static void setValue(String value)	// Set value1 - the user entry(value)
 	{	
 		JOptionPane.showMessageDialog(null, "value in setValue() = " + value);
-		this.value = value;
+		Operation.value = value;
 	}
 	
-	public String getValue()				// Get value1
+	public static String getValue()				// Get value1
 	{
 		return value;
 	}
 	
-	void setPrompt(String prompt1)			// Set the prompt from the text file
+	public void resetValue()
 	{
-		this.prompt1 = prompt1;
+		value = "";
 	}
 	
-	String getPrompt()
+	public static void setPrompt(String prompt1)			// Set the prompt from the text file
 	{
-		return prompt1;
+		Operation.prompt1 = prompt1;
+	}
+	
+	public static String getPrompt()
+	{
+		return Operation.prompt1;
+	}
+	
+	public void resetPrompt()
+	{
+		prompt1 = "";
 	}
 	
 	public int generateRandomNumber(int min, int max) 	// Generate a random numbers with given parameters
@@ -135,10 +146,6 @@ public class Operation
 		Random random = new Random();
 		return random.nextInt((max - min) + 1) + min;
 	}
-	
-	//Integer scoreArray[] = new Integer[5];
-	//int max = 0, index = 0;
-	//int firstScore, secondScore, thirdScore, fourthScore, fifthScore;
 	
 	/*****************************************************************************************************************
 	 * High Score Text File - Sorting
@@ -259,74 +266,74 @@ public class Operation
 		return returnB;
 	}
 	
-	public void validateInput() // Call setValue1() before calling this method. 
-	{
-		String prompt;
-		
-		prompt = getPrompt();
-		value = getValue();
-		
-		JOptionPane.showMessageDialog(null, "getPrompt1() = " + getPrompt() + "\n getValue() = " + getValue()); 
-		
-		validateWithChar(getValue(), prompt);
-		
-		if(getValidationBoolean())	// if this flag is true, there was a correct input.
-		{
-			JOptionPane.showMessageDialog(null, "CORRECT ANSWER after validation! DONE incrementCorrectInput();");
-			incrementCorrectInput();
-		}
-		if(!(getValidationBoolean()))
-		{
-			JOptionPane.showMessageDialog(null, "INCORRECT ANSWER after validation! Your " + (getIncorrectIndex() + 1) + 
-					"th letter was incorrect: \n Your entry: " + getValue());
-			
-		}
-		
-	} // end validateInput1()
-	
-	
-	public void validateWithChar(String value, String prompt1) // Recieves user entry (value) and the prompt.
-	{
-		this.value = value;
-		this.prompt1 = prompt1;
-	
-		boolean someBool = false;
-		
-		if(value.length() == prompt1.length())
-		{
-			JOptionPane.showMessageDialog(null, "value1.length() " + value.length() + "prompt1.length() " + prompt1.length());
-			someBool = true;
-			JOptionPane.showMessageDialog(null, "Correct length!");
-		}
-		if(!(value.length() == prompt1.length()))
-		{
-			JOptionPane.showMessageDialog(null, "Incorrect length!");
-			setValidationBoolean(false); // set as true --> there is an error
-			someBool = false;
-		}
-		
-		//------------------------------If length is correct ------------------------------
-		
-		if(someBool) // if the value and prompt are the same length
-			for(int i = 0; i < prompt1.length(); i++)
-			{
-				if(value.charAt(i) == prompt1.charAt(i))
-				{
-//					JOptionPane.showMessageDialog(null, "Equal! value1[ " + i + "]:" + value.charAt(i) + 
-//							"\nprompt1[ " + i +"]:" + prompt1.charAt(i));
-				}
-				
-				if(!(value.charAt(i) == prompt1.charAt(i)))
-					{
-					setValidationBoolean(false);
-//					JOptionPane.showMessageDialog(null, "NOT Equal! value1[ " + i + "]:" + value.charAt(i) + 
-//							"\nprompt1[ " + i +"]:" + prompt1.charAt(i));
-					
-					setIncorrectIndex(i);
-					}
-			}
-	
-	} // end validateWithChar()
+//	public void validateInput() // Call setValue1() before calling this method. 
+//	{
+//		String prompt;
+//		
+//		prompt = getPrompt();
+//		value = getValue();
+//		
+//		JOptionPane.showMessageDialog(null, "getPrompt1() = " + getPrompt() + "\n getValue() = " + getValue()); 
+//		
+//		validateWithChar(getValue(), prompt);
+//		
+//		if(getValidationBoolean())	// if this flag is true, there was a correct input.
+//		{
+//			JOptionPane.showMessageDialog(null, "CORRECT ANSWER after validation! DONE incrementCorrectInput();");
+//			incrementCorrectInput();
+//		}
+//		if(!(getValidationBoolean()))
+//		{
+//			JOptionPane.showMessageDialog(null, "INCORRECT ANSWER after validation! Your " + (getIncorrectIndex() + 1) + 
+//					"th letter was incorrect: \n Your entry: " + getValue());
+//			
+//		}
+//		
+//	} // end validateInput1()
+//	
+//	
+//	public void validateWithChar(String value, String prompt1) // Recieves user entry (value) and the prompt.
+//	{
+//		this.value = value;
+//		this.prompt1 = prompt1;
+//	
+//		boolean someBool = false;
+//		
+//		if(value.length() == prompt1.length())
+//		{
+//			JOptionPane.showMessageDialog(null, "value1.length() " + value.length() + "prompt1.length() " + prompt1.length());
+//			someBool = true;
+//			JOptionPane.showMessageDialog(null, "Correct length!");
+//		}
+//		if(!(value.length() == prompt1.length()))
+//		{
+//			JOptionPane.showMessageDialog(null, "Incorrect length!");
+//			setValidationBoolean(false); // set as true --> there is an error
+//			someBool = false;
+//		}
+//		
+//		//------------------------------If length is correct ------------------------------
+//		
+//		if(someBool) // if the value and prompt are the same length
+//			for(int i = 0; i < prompt1.length(); i++)
+//			{
+//				if(value.charAt(i) == prompt1.charAt(i))
+//				{
+////					JOptionPane.showMessageDialog(null, "Equal! value1[ " + i + "]:" + value.charAt(i) + 
+////							"\nprompt1[ " + i +"]:" + prompt1.charAt(i));
+//				}
+//				
+//				if(!(value.charAt(i) == prompt1.charAt(i)))
+//					{
+//					setValidationBoolean(false);
+////					JOptionPane.showMessageDialog(null, "NOT Equal! value1[ " + i + "]:" + value.charAt(i) + 
+////							"\nprompt1[ " + i +"]:" + prompt1.charAt(i));
+//					
+//					setIncorrectIndex(i);
+//					}
+//			}
+//	
+//	} // end validateWithChar()
 	
 		
 } // End Operation Class

@@ -1,7 +1,7 @@
 
 public class Person 
 {
-	String name;
+	String name, x;
 	int score;
 	
 	Person(){}
@@ -23,6 +23,8 @@ public class Person
 	}
 	public String toString()
 	{
-		return this.name + "\n" +  this.score;
+		x = Integer.toString(getScore());
+		return this.name + "\n" +  this.x;
+		//return this.name + "\n" +  this.score;
 	}
 }
